@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, CloudFog, Ghost, Radio } from 'lucide-react';
-import { soundEngine } from '../utils/soundEngine';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useGame } from '../context/GameContext';
 
 interface FlyerEntity {
   id: number;
@@ -29,21 +28,18 @@ const FLYERS_CONFIG: FlyerEntity[] = [
 ];
 
 export const HorrorAtmosphere: React.FC = () => {
-  const [fogActive, setFogActive] = useState<boolean>(true);
-  const [flyersActive, setFlyersActive] = useState<boolean>(true);
-  const [musicActive, setMusicActive] = useState<boolean>(false);
-  const [hudOpen, setHudOpen] = useState<boolean>(false);
+  const { currentTheme } = useGame();
+  const [fogActive] = useState<boolean>(true);
+  const [flyersActive] = useState<boolean>(true);
 
-  useEffect(() => {
-    // Keep track of sound engine status
-    setMusicActive(soundEngine.isHorrorMusicActive());
-  }, []);
-
-  const handleToggleMusic = () => {
-    soundEngine.playClick();
-    const next = soundEngine.toggleHorrorMusic();
-    setMusicActive(next);
+  const themeGradients = {
+    blood: 'radial-gradient(circle at 50% 40%, rgba(255,0,30,0.14) 0%, rgba(3,2,7,0.88) 70%)',
+    void: 'radial-gradient(circle at 50% 40%, rgba(168,85,247,0.16) 0%, rgba(6,3,15,0.88) 70%)',
+    crypt: 'radial-gradient(circle at 50% 40%, rgba(52,211,153,0.15) 0%, rgba(2,10,6,0.88) 70%)',
+    noir: 'radial-gradient(circle at 50% 40%, rgba(239,68,68,0.14) 0%, rgba(5,5,5,0.92) 70%)',
   };
+
+  const currentAura = themeGradients[currentTheme] || themeGradients.blood;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
@@ -64,9 +60,12 @@ export const HorrorAtmosphere: React.FC = () => {
           }}
         />
 
-        {/* Cinematic Darkness Vignette & Color Gradients */}
+        {/* Cinematic Darkness Vignette & Dynamic Theme Gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#030207]/85 via-[#030207]/75 to-[#030207]/95" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(179,19,36,0.12)_0%,rgba(3,2,7,0.85)_70%)]" />
+        <div
+          className="absolute inset-0 transition-all duration-1000"
+          style={{ background: currentAura }}
+        />
         <div className="absolute inset-0 scanlines opacity-40 mix-blend-overlay" />
       </div>
 
@@ -106,128 +105,6 @@ export const HorrorAtmosphere: React.FC = () => {
           ))}
         </div>
       )}
-
-      {/* 4. DISCREET ATMOSPHERIC CONTROLS HUD (BOTTOM-RIGHT) */}
-      <div className="fixed bottom-5 right-5 z-40 pointer-events-auto">
-        <div className="relative">
-          {/* Toggle pill button */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 px-3 py-2 rounded-full bg-[#0d0a14]/90 border border-void-crimson/40 backdrop-blur-md shadow-2xl text-xs font-mono"
-          >
-            {/* Horror Ambient Audio Quick Button */}
-            <button
-              onClick={handleToggleMusic}
-              onMouseEnter={() => soundEngine.playHover()}
-              title={musicActive ? 'Mute Horror Ambience' : 'Play Horror Soundtrack'}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full transition ${
-                musicActive
-                  ? 'bg-void-crimson/30 text-white border border-void-crimson shadow-[0_0_12px_rgba(179,19,36,0.6)]'
-                  : 'bg-void-900/80 text-void-muted hover:text-white border border-void-purple/20'
-              }`}
-            >
-              {musicActive ? (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-void-crimson animate-pulse" />
-                  <span className="text-[10px] text-red-200 font-bold tracking-wider">HORROR MUSIC</span>
-                  {/* Equalizer animation */}
-                  <span className="flex items-end gap-0.5 h-2.5 ml-1">
-                    <span className="w-0.5 h-full bg-void-crimson animate-pulse" />
-                    <span className="w-0.5 h-2/3 bg-void-crimson animate-ping" />
-                    <span className="w-0.5 h-1/2 bg-void-crimson animate-pulse" />
-                  </span>
-                </>
-              ) : (
-                <>
-                  <VolumeX className="w-3.5 h-3.5" />
-                  <span className="text-[10px] tracking-wider">HORROR MUSIC: OFF</span>
-                </>
-              )}
-            </button>
-
-            {/* Quick expandable toggle for Fog & Flyers */}
-            <button
-              onClick={() => {
-                soundEngine.playClick();
-                setHudOpen(!hudOpen);
-              }}
-              onMouseEnter={() => soundEngine.playHover()}
-              className="p-1.5 rounded-full hover:bg-void-crimson/20 text-void-muted hover:text-white transition"
-              title="Atmosphere Settings"
-            >
-              <CloudFog className="w-4 h-4" />
-            </button>
-          </motion.div>
-
-          {/* Expanded Atmosphere Settings Menu */}
-          <AnimatePresence>
-            {hudOpen && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92, y: 10 }}
-                className="absolute bottom-12 right-0 w-64 p-4 rounded-2xl bg-[#0e0a16]/95 border border-void-crimson/40 backdrop-blur-xl shadow-2xl space-y-3 font-mono text-xs text-white"
-              >
-                <div className="flex items-center justify-between pb-2 border-b border-void-crimson/20">
-                  <div className="flex items-center gap-1.5 text-[11px] text-void-crimson font-bold uppercase tracking-wider">
-                    <Radio className="w-3 h-3 animate-pulse" />
-                    <span>HORROR FX ENGINE</span>
-                  </div>
-                  <button
-                    onClick={() => setHudOpen(false)}
-                    className="text-void-muted hover:text-white text-[10px]"
-                  >
-                    CLOSE
-                  </button>
-                </div>
-
-                {/* Fog Toggle */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-void-200">
-                    <CloudFog className="w-3.5 h-3.5 text-void-purple" />
-                    <span>VOLUMETRIC FOG</span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      soundEngine.playClick();
-                      setFogActive(!fogActive);
-                    }}
-                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold transition border ${
-                      fogActive
-                        ? 'bg-void-crimson/25 text-white border-void-crimson'
-                        : 'bg-void-900 text-void-muted border-void-purple/20'
-                    }`}
-                  >
-                    {fogActive ? 'ACTIVE' : 'OFF'}
-                  </button>
-                </div>
-
-                {/* Flying Entities Toggle */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-void-200">
-                    <Ghost className="w-3.5 h-3.5 text-void-crimson" />
-                    <span>FLYING APPARITIONS</span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      soundEngine.playClick();
-                      setFlyersActive(!flyersActive);
-                    }}
-                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold transition border ${
-                      flyersActive
-                        ? 'bg-void-crimson/25 text-white border-void-crimson'
-                        : 'bg-void-900 text-void-muted border-void-purple/20'
-                    }`}
-                  >
-                    {flyersActive ? 'ACTIVE' : 'OFF'}
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
     </div>
   );
 };

@@ -14,6 +14,7 @@ import { ToastContainer } from './components/ToastContainer';
 import { HorrorAtmosphere } from './components/HorrorAtmosphere';
 import { HorrorOverlay } from './components/HorrorOverlay';
 import { CinematicTransition } from './components/CinematicTransition';
+import { HorrorMusicPlayer } from './components/HorrorMusicPlayer';
 import { soundEngine } from './utils/soundEngine';
 import { horrorEventManager } from './utils/horrorEventManager';
 
@@ -146,6 +147,9 @@ const AppContent: React.FC = () => {
 
       {/* Horror visual effects overlay (random events, jump scares) */}
       <HorrorOverlay />
+
+      {/* Global Horror Music & Atmosphere Theme Player */}
+      <HorrorMusicPlayer />
 
       {/* Global Overlays & Modals */}
       <CommandPalette onRouteChange={setCurrentRoute} />

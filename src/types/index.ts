@@ -1,4 +1,5 @@
 export type UserRank = 'INITIATE' | 'OPERATIVE' | 'COMMANDER' | 'VOID ARCHITECT' | 'EMPEROR';
+export type HorrorTheme = 'blood' | 'void' | 'crypt' | 'noir';
 
 export interface TokenTransaction {
   id: string;

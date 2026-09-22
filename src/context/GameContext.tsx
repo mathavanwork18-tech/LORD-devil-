@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { UserRank, TokenTransaction, Mission, EvilService, Minion, Achievement, AudioSettings } from '../types';
+import { UserRank, HorrorTheme, TokenTransaction, Mission, EvilService, Minion, Achievement, AudioSettings } from '../types';
 import { INITIAL_MISSIONS, INITIAL_SERVICES, INITIAL_MINIONS, INITIAL_ACHIEVEMENTS } from '../data/mockData';
 import { soundEngine } from '../utils/soundEngine';
 
@@ -10,6 +10,10 @@ interface ToastInfo {
 }
 
 interface GameContextType {
+  // Theme & Atmosphere
+  currentTheme: HorrorTheme;
+  setTheme: (theme: HorrorTheme) => void;
+
   // User Profile
   codename: string | null;
   tokens: number;
@@ -82,9 +86,27 @@ const STORAGE_KEYS = {
   MINIONS: 'void_minions',
   ACHIEVEMENTS: 'void_achievements',
   FAVORITES: 'void_favorites',
+  THEME: 'void_active_theme',
 };
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Theme state
+  const [currentTheme, setCurrentThemeState] = useState<HorrorTheme>(() => {
+    const saved = localStorage.getItem('void_active_theme') as HorrorTheme | null;
+    return saved && ['blood', 'void', 'crypt', 'noir'].includes(saved) ? saved : 'blood';
+  });
+
+  const setTheme = (theme: HorrorTheme) => {
+    setCurrentThemeState(theme);
+    localStorage.setItem('void_active_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    soundEngine.playNormalClick();
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
+
   // Load state from localStorage
   const [codename, setCodenameState] = useState<string | null>(() => {
     return localStorage.getItem(STORAGE_KEYS.CODENAME);
@@ -473,6 +495,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toasts,
         showToast,
         resetDemo,
+        currentTheme,
+        setTheme,
       }}
     >
       {children}

@@ -115,8 +115,10 @@ export class SoundEngine {
 
   // ── Authentic Scary Horror Theme Tracks ────────────────────────────────
   private scaryTrackAudio: HTMLAudioElement | null = null;
-  private currentScaryTrackId: 'track1' | 'track2' | 'procedural' = 'track1';
+  private currentScaryTrackId: 'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural' = 'track1';
   private isScaryMusicActive = false;
+  private musicBoxTimer: any = null;
+  private cathedralTimer: any = null;
 
   public static readonly SCARY_TRACKS = [
     {
@@ -132,6 +134,20 @@ export class SoundEngine {
       artist: 'Gregoire Lourme (Cinematic Horror Vol. 9)',
       mood: 'Relentless Terror / Slasher Suspense',
       url: '/assets/horror/audio/scary_horror_theme_2.mp3',
+    },
+    {
+      id: 'music_box' as const,
+      name: 'Cursed Asylum Music Box',
+      artist: 'Lord Evil Gothic Synthesizer',
+      mood: 'Distorted Music Box & Whispering Drone',
+      url: '',
+    },
+    {
+      id: 'cathedral' as const,
+      name: 'Cathedral of Damned Souls',
+      artist: 'Abyssal Liturgy & Gothic Requiem',
+      mood: 'Liturgical Organ & Resonant Church Bells',
+      url: '',
     },
     {
       id: 'procedural' as const,
@@ -173,22 +189,40 @@ export class SoundEngine {
   }
 
   // ── Scary Theme Song Playback Controls ─────────────────────────────────
-  public getScaryTrackId(): 'track1' | 'track2' | 'procedural' {
+  public getScaryTrackId(): 'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural' {
     return this.currentScaryTrackId;
+  }
+
+  public getCurrentScaryTrack() {
+    return SoundEngine.SCARY_TRACKS.find(t => t.id === this.currentScaryTrackId) || SoundEngine.SCARY_TRACKS[0];
   }
 
   public isScaryTrackPlaying(): boolean {
     return this.isScaryMusicActive;
   }
 
-  public playScaryTrack(trackId: 'track1' | 'track2' | 'procedural') {
+  public playScaryTrack(trackId: 'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural') {
+    this.stopMusicBox();
+    this.stopCathedral();
+    if (this.scaryTrackAudio) {
+      this.scaryTrackAudio.pause();
+    }
+    this.stopAmbient();
+
     this.currentScaryTrackId = trackId;
     this.isScaryMusicActive = true;
 
+    if (trackId === 'music_box') {
+      this.startMusicBox();
+      return;
+    }
+
+    if (trackId === 'cathedral') {
+      this.startCathedral();
+      return;
+    }
+
     if (trackId === 'procedural') {
-      if (this.scaryTrackAudio) {
-        this.scaryTrackAudio.pause();
-      }
       this.startAmbient();
       return;
     }
@@ -215,6 +249,8 @@ export class SoundEngine {
 
   public stopScaryTrack() {
     this.isScaryMusicActive = false;
+    this.stopMusicBox();
+    this.stopCathedral();
     if (this.scaryTrackAudio) {
       this.scaryTrackAudio.pause();
     }
@@ -231,13 +267,114 @@ export class SoundEngine {
     return this.isScaryMusicActive;
   }
 
-  public nextScaryTrack(): 'track1' | 'track2' | 'procedural' {
-    const ids: Array<'track1' | 'track2' | 'procedural'> = ['track1', 'track2', 'procedural'];
+  public nextScaryTrack(): 'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural' {
+    const ids: Array<'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural'> = [
+      'track1', 'track2', 'music_box', 'cathedral', 'procedural'
+    ];
     const curIdx = ids.indexOf(this.currentScaryTrackId);
     const nextIdx = (curIdx + 1) % ids.length;
     const nextTrack = ids[nextIdx];
     this.playScaryTrack(nextTrack);
     return nextTrack;
+  }
+
+  public prevScaryTrack(): 'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural' {
+    const ids: Array<'track1' | 'track2' | 'music_box' | 'cathedral' | 'procedural'> = [
+      'track1', 'track2', 'music_box', 'cathedral', 'procedural'
+    ];
+    const curIdx = ids.indexOf(this.currentScaryTrackId);
+    const prevIdx = (curIdx - 1 + ids.length) % ids.length;
+    const prevTrack = ids[prevIdx];
+    this.playScaryTrack(prevTrack);
+    return prevTrack;
+  }
+
+  private startMusicBox() {
+    this.stopMusicBox();
+    const notes = [587.33, 698.46, 880.00, 1108.73, 932.33, 783.99, 659.25, 587.33];
+    let noteIdx = 0;
+    this.startAmbient();
+
+    this.musicBoxTimer = setInterval(() => {
+      if (!this.isScaryMusicActive) return;
+      const freq = notes[noteIdx % notes.length];
+      noteIdx++;
+      this.playMusicBoxNote(freq);
+    }, 480);
+  }
+
+  private stopMusicBox() {
+    if (this.musicBoxTimer) {
+      clearInterval(this.musicBoxTimer);
+      this.musicBoxTimer = null;
+    }
+  }
+
+  private playMusicBoxNote(freq: number) {
+    const ctx = this.initContext();
+    if (!ctx) return;
+    const vol = this.getEffectiveVolume('ambience');
+    if (vol <= 0) return;
+    const t = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const detune = (Math.random() - 0.5) * 6;
+    osc.frequency.setValueAtTime(freq + detune, t);
+
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.linearRampToValueAtTime(vol * 0.14, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 1.2);
+  }
+
+  private startCathedral() {
+    this.stopCathedral();
+    this.startAmbient();
+    this.playChurchBell();
+
+    this.cathedralTimer = setInterval(() => {
+      if (!this.isScaryMusicActive) return;
+      this.playChurchBell();
+    }, 6500);
+  }
+
+  private stopCathedral() {
+    if (this.cathedralTimer) {
+      clearInterval(this.cathedralTimer);
+      this.cathedralTimer = null;
+    }
+  }
+
+  private playChurchBell() {
+    const ctx = this.initContext();
+    if (!ctx) return;
+    const vol = this.getEffectiveVolume('ambience');
+    if (vol <= 0) return;
+    const t = ctx.currentTime;
+
+    const partials = [110, 220, 311.13, 440, 622.25, 880];
+    partials.forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, t);
+
+      const decay = 4.2 / (i * 0.45 + 1);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime((vol * 0.075) / (i + 1), t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + decay);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + decay + 0.1);
+    });
   }
 
   private updateScaryTrackVolume() {
