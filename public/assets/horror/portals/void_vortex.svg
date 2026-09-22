@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <radialGradient id="vortexGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" />
+      <stop offset="35%" stop-color="#1c0309" />
+      <stop offset="70%" stop-color="#7A0C16" />
+      <stop offset="90%" stop-color="#ff001e" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#vortexGrad)" />
+  <!-- Spiral Arms -->
+  <path d="M100 100 Q140 70 170 100 Q150 140 100 100" stroke="#ff001e" stroke-width="2.5" opacity="0.8" fill="none" />
+  <path d="M100 100 Q60 130 30 100 Q50 60 100 100" stroke="#ff001e" stroke-width="2.5" opacity="0.8" fill="none" />
+  <path d="M100 100 Q130 140 100 170 Q60 150 100 100" stroke="#ff4d61" stroke-width="2" opacity="0.7" fill="none" />
+  <path d="M100 100 Q70 60 100 30 Q140 50 100 100" stroke="#ff4d61" stroke-width="2" opacity="0.7" fill="none" />
+</svg>

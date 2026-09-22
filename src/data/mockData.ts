@@ -402,9 +402,9 @@ export const LAIR_ROOMS: LairRoom[] = [
   },
   {
     id: 'room-02',
-    name: 'DARK LABORATORY',
+    name: 'DARK LABORATORY & ABYSSAL RIFT',
     subtitle: 'Where Nightmares Are Assembled',
-    image: '/assets/horror/backgrounds/lord-evil-forbidden-corridor.jpg',
+    image: '/assets/horror/portals/abyssal_rift_portal.jpg',
     description: 'Centrifuges of bioluminescent venom, antimatter particle colliders, and cages containing chittering supernatural entities.',
     securityLevel: 'CLEARANCE LEVEL 5',
     artifacts: [
@@ -428,9 +428,9 @@ export const LAIR_ROOMS: LairRoom[] = [
   },
   {
     id: 'room-04',
-    name: 'TROPHY VAULT',
+    name: 'TROPHY VAULT & SHADOW REGALIA',
     subtitle: 'Relics of Vanquished Foes',
-    image: '/assets/horror/backgrounds/lord-evil-void-chamber.jpg',
+    image: '/assets/horror/objects/shadow_crown_regalia.jpg',
     description: 'A museum of shattered capes, dented vibranium shields, and stolen celestial artifacts collected across centuries of dominance.',
     securityLevel: 'CLEARANCE LEVEL 3',
     artifacts: [
@@ -443,7 +443,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-05',
     name: 'MINION DOCK & BARRACKS',
     subtitle: 'Legion Assembly Bay',
-    image: '/assets/horror/entities/mission-05-red-warden.jpg',
+    image: '/assets/horror/entities/minion_army_horde.jpg',
     description: 'A subterranean cavern spanning three square miles. Endless ranks of shadow drones recharging in glowing violet docking cradles.',
     securityLevel: 'CLEARANCE LEVEL 2',
     artifacts: [

@@ -333,6 +333,40 @@ export const Home: React.FC<HomeProps> = ({ onRouteChange }) => {
             </p>
           </div>
 
+          {/* ── CURSED ARTIFACTS ALTAR HERO SHOWCASE ── */}
+          <div className="relative rounded-2xl overflow-hidden mb-8 border border-[#B06D35]/50 shadow-[0_0_40px_rgba(176,109,53,0.25)] bg-[#070305] group">
+            <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+              {/* Image artwork */}
+              <div className="lg:col-span-7 relative h-64 sm:h-80 overflow-hidden">
+                <img
+                  src="/assets/horror/objects/cursed_artifacts_relics.jpg"
+                  alt="Cursed Altar of Lord Evil"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter contrast-120"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070305] via-transparent to-transparent lg:hidden" />
+                <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#070305]" />
+              </div>
+
+              {/* Altar Inscription & Lore */}
+              <div className="lg:col-span-5 p-6 sm:p-8 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B06D35]/20 border border-[#B06D35]/40 text-[10px] font-heading tracking-widest text-[#B06D35] uppercase">
+                  <Flame className="w-3 h-3 text-[#ff001e]" />
+                  <span>SANCTUM OF UNHOLY RELICS</span>
+                </div>
+                <h3 className="font-heading text-xl sm:text-2xl font-bold tracking-wider text-[#E7E0D2] uppercase">
+                  THE FORBIDDEN CRYPT ALTAR
+                </h3>
+                <p className="text-xs text-[#b8b0a9] leading-relaxed">
+                  Consecrated in the blood of fallen operatives. Featuring the Spiked Iron Skull of Cinders, the Blood Rune Grimoire, and the Obsidian Sacrificial Blade. Select any relic below to commune with its unholy power.
+                </p>
+                <div className="flex items-center gap-4 text-xs font-mono text-[#918B86]">
+                  <div>CONSECRATION: <span className="text-[#ff001e]">TIER V</span></div>
+                  <div>BUFF RESONANCE: <span className="text-green-400">+25%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {CURSED_RELICS.map((relic) => {
               const isSelected = activeRelic.id === relic.id;

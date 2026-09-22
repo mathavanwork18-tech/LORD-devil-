@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="ironKey" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3d3a42" />
+      <stop offset="60%" stop-color="#18151c" />
+      <stop offset="100%" stop-color="#7A0C16" />
+    </linearGradient>
+  </defs>
+  <!-- Skull Bow -->
+  <circle cx="36" cy="36" r="20" fill="url(#ironKey)" stroke="#B06D35" stroke-width="2" />
+  <!-- Eye hollows in the key handle -->
+  <circle cx="30" cy="32" r="4" fill="#050505" stroke="#ff001e" stroke-width="0.8" />
+  <circle cx="42" cy="32" r="4" fill="#050505" stroke="#ff001e" stroke-width="0.8" />
+  <polygon points="36,39 34,44 38,44" fill="#ff001e" />
+  <!-- Key Shaft -->
+  <rect x="50" y="46" width="38" height="7" transform="rotate(45 50 46)" fill="url(#ironKey)" stroke="#B06D35" stroke-width="1.5" />
+  <!-- Key Teeth -->
+  <rect x="74" y="70" width="10" height="6" transform="rotate(45 74 70)" fill="#B06D35" />
+  <rect x="80" y="76" width="8" height="6" transform="rotate(45 80 76)" fill="#B06D35" />
+</svg>

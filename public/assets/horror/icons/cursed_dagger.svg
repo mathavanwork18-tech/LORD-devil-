@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2830" />
+      <stop offset="50%" stop-color="#0f0c12" />
+      <stop offset="100%" stop-color="#7A0C16" />
+    </linearGradient>
+    <filter id="crimsonShine">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#ff001e" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <!-- Diagonal Blade -->
+  <path d="M85 15 L76 34 L32 68 L28 66 L26 70 L30 74 L28 78 L72 34 Z" fill="url(#bladeGrad)" stroke="#B31324" stroke-width="1.2" filter="url(#crimsonShine)" />
+  <!-- Central blood groove -->
+  <line x1="82" y1="18" x2="38" y2="62" stroke="#ff001e" stroke-width="1.5" stroke-linecap="round" />
+  <!-- Blood drip from tip -->
+  <circle cx="86" cy="14" r="2" fill="#ff001e" />
+  <!-- Crossguard -->
+  <path d="M22 62 L40 80 L36 84 L18 66 Z" fill="#B06D35" stroke="#7A0C16" stroke-width="1" />
+  <!-- Pommel & hilt -->
+  <path d="M22 74 L14 82 L18 86 L26 78 Z" fill="#14080e" stroke="#B06D35" stroke-width="1" />
+  <circle cx="12" cy="88" r="4.5" fill="#7A0C16" stroke="#ff001e" stroke-width="1" />
+</svg>

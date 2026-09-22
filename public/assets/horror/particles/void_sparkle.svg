@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" fill="none">
+  <defs>
+    <radialGradient id="sparkleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="30%" stop-color="#ff001e" />
+      <stop offset="70%" stop-color="#7A0C16" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+  </defs>
+  <!-- 4-pointed sparkle diamond -->
+  <path d="M25 2 Q25 25 2 25 Q25 25 25 48 Q25 25 48 25 Q25 25 25 2 Z" fill="url(#sparkleGlow)" filter="drop-shadow(0 0 4px #ff001e)" />
+  <circle cx="25" cy="25" r="4" fill="#ffffff" />
+</svg>

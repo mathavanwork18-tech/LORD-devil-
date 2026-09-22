@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <radialGradient id="blackFlame" cx="50%" cy="55%" r="45%">
+      <stop offset="0%" stop-color="#ff001e" />
+      <stop offset="40%" stop-color="#7A0C16" />
+      <stop offset="70%" stop-color="#1c0716" />
+      <stop offset="100%" stop-color="#050105" />
+    </radialGradient>
+  </defs>
+  <!-- Handle Ring -->
+  <circle cx="50" cy="12" r="7" stroke="#B06D35" stroke-width="2.5" />
+  <!-- Lantern Roof -->
+  <path d="M30 24 L50 16 L70 24 L64 30 L36 30 Z" fill="#241d24" stroke="#B06D35" stroke-width="1.8" />
+  <!-- Glass Chamber -->
+  <rect x="36" y="30" width="28" height="42" fill="url(#blackFlame)" stroke="#7A0C16" stroke-width="1.5" />
+  <!-- Iron Cages / Bars -->
+  <line x1="43" y1="30" x2="43" y2="72" stroke="#B06D35" stroke-width="1.5" />
+  <line x1="50" y1="30" x2="50" y2="72" stroke="#B06D35" stroke-width="1.5" />
+  <line x1="57" y1="30" x2="57" y2="72" stroke="#B06D35" stroke-width="1.5" />
+  <!-- Floating Cold Black Core Flame -->
+  <path d="M50 42 C54 48 56 54 50 62 C44 54 46 48 50 42 Z" fill="#ff001e" filter="drop-shadow(0 0 6px #ff001e)" />
+  <circle cx="50" cy="54" r="2.5" fill="#ffffff" />
+  <!-- Lantern Base -->
+  <path d="M32 72 L68 72 L72 82 L28 82 Z" fill="#241d24" stroke="#B06D35" stroke-width="1.8" />
+  <!-- Spiked feet -->
+  <polygon points="30,82 32,88 35,82" fill="#B06D35" />
+  <polygon points="65,82 68,88 70,82" fill="#B06D35" />
+</svg>

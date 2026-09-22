@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="chaliceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B06D35" />
+      <stop offset="40%" stop-color="#241822" />
+      <stop offset="100%" stop-color="#0a0508" />
+    </linearGradient>
+    <radialGradient id="bloodGlow" cx="50%" cy="35%" r="40%">
+      <stop offset="0%" stop-color="#ff001e" />
+      <stop offset="80%" stop-color="#7A0C16" />
+      <stop offset="100%" stop-color="#3b0207" />
+    </radialGradient>
+  </defs>
+  <!-- Blood mist vapor -->
+  <path d="M40 18 Q50 6 60 18 Q50 12 40 18 Z" fill="#ff001e" opacity="0.4" />
+  <path d="M46 12 Q50 4 54 12 Z" fill="#ff4d61" opacity="0.6" />
+  <!-- Chalice rim & cup -->
+  <path d="M22 28 C24 55 42 66 48 68 L48 84 L34 88 L34 94 L66 94 L66 88 L52 84 L52 68 C58 66 76 55 78 28 Z" fill="url(#chaliceGrad)" stroke="#B06D35" stroke-width="1.8" />
+  <!-- Blood surface inside cup -->
+  <ellipse cx="50" cy="28" rx="27" ry="9" fill="url(#bloodGlow)" stroke="#ff001e" stroke-width="1.2" />
+  <ellipse cx="50" cy="29" rx="18" ry="5" fill="#ff001e" opacity="0.7" />
+  <!-- Skull motif on chalice body -->
+  <circle cx="50" cy="46" r="6" fill="#0A0507" stroke="#B06D35" stroke-width="1" />
+  <circle cx="48" cy="45" r="1" fill="#ff001e" />
+  <circle cx="52" cy="45" r="1" fill="#ff001e" />
+  <!-- Spikes on base -->
+  <polygon points="30,94 34,88 38,94" fill="#B06D35" />
+  <polygon points="62,94 66,88 70,94" fill="#B06D35" />
+</svg>

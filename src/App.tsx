@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GameProvider, useGame } from './context/GameContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { CinematicIntro } from './components/CinematicIntro';
+import { LordEvilIntro } from './components/LordEvilIntro';
 import { IdentityGate } from './components/IdentityGate';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -12,6 +12,10 @@ import { TokenHistoryDrawer } from './components/TokenHistoryDrawer';
 import { CompareDrawer } from './components/CompareDrawer';
 import { ToastContainer } from './components/ToastContainer';
 import { HorrorAtmosphere } from './components/HorrorAtmosphere';
+import { HorrorOverlay } from './components/HorrorOverlay';
+import { CinematicTransition } from './components/CinematicTransition';
+import { soundEngine } from './utils/soundEngine';
+import { horrorEventManager } from './utils/horrorEventManager';
 
 // Pages
 import { Home } from './pages/Home';
@@ -30,11 +34,16 @@ import { Contact } from './pages/Contact';
 import { NotFound } from './pages/NotFound';
 
 const AppContent: React.FC = () => {
-  const { codename, activeMission } = useGame();
+  const {
+    codename, activeMission,
+    isCommandPaletteOpen, isSecretTerminalOpen, isSoundSettingsOpen,
+    isHistoryDrawerOpen, isCompareDrawerOpen,
+  } = useGame();
   const [currentRoute, setCurrentRoute] = useState<string>('home');
-  const [introCompleted, setIntroCompleted] = useState<boolean>(() => {
-    // Only show intro once per session
-    return sessionStorage.getItem('lord_evil_intro_seen') === 'true';
+  const [showIntro, setShowIntro] = useState<boolean>(() => {
+    // Only show intro once per browser session
+    // If already seen this session, skip it entirely
+    return sessionStorage.getItem('lord_evil_intro_seen') !== 'true';
   });
 
   // Scroll to top on route change
@@ -42,13 +51,33 @@ const AppContent: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentRoute]);
 
-  // Show cinematic intro on first visit
-  if (!introCompleted) {
+  // ── Horror Event Manager lifecycle ──────────────────────────────────
+  useEffect(() => {
+    horrorEventManager.start();
+    return () => horrorEventManager.stop();
+  }, []);
+
+  // ── Page-specific atmosphere changes ────────────────────────────────
+  useEffect(() => {
+    soundEngine.setPageAtmosphere(currentRoute);
+  }, [currentRoute]);
+
+  // ── Block horror events when modals/overlays are open ───────────────
+  useEffect(() => {
+    const anyModalOpen = isCommandPaletteOpen || isSecretTerminalOpen ||
+      isSoundSettingsOpen || isHistoryDrawerOpen || isCompareDrawerOpen ||
+      !!activeMission;
+    horrorEventManager.setBlocked(anyModalOpen);
+  }, [isCommandPaletteOpen, isSecretTerminalOpen, isSoundSettingsOpen,
+      isHistoryDrawerOpen, isCompareDrawerOpen, activeMission]);
+
+  // Show LORD EVIL intro video on first visit this session
+  if (showIntro) {
     return (
-      <CinematicIntro
+      <LordEvilIntro
         onComplete={() => {
           sessionStorage.setItem('lord_evil_intro_seen', 'true');
-          setIntroCompleted(true);
+          setShowIntro(false);
         }}
       />
     );
@@ -111,6 +140,12 @@ const AppContent: React.FC = () => {
 
         <Footer onRouteChange={setCurrentRoute} />
       </div>
+
+      {/* Cinematic page transition overlay */}
+      <CinematicTransition currentRoute={currentRoute} />
+
+      {/* Horror visual effects overlay (random events, jump scares) */}
+      <HorrorOverlay />
 
       {/* Global Overlays & Modals */}
       <CommandPalette onRouteChange={setCurrentRoute} />

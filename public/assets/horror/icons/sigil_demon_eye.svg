@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff001e" />
+      <stop offset="60%" stop-color="#7A0C16" />
+      <stop offset="100%" stop-color="#050102" />
+    </radialGradient>
+    <filter id="eyeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Barbed outer ring -->
+  <circle cx="50" cy="50" r="44" stroke="#7A0C16" stroke-width="1.5" stroke-dasharray="4 2" />
+  <circle cx="50" cy="50" r="41" stroke="#B31324" stroke-width="0.8" opacity="0.7" />
+  <!-- Spikes -->
+  <path d="M50 2 L52 8 L48 8 Z M50 98 L52 92 L48 92 Z M2 50 L8 52 L8 48 Z M98 50 L92 52 L92 48 Z" fill="#ff001e" />
+  <path d="M16 16 L22 20 L19 23 Z M84 16 L78 20 L81 23 Z M16 84 L22 80 L19 77 Z M84 84 L78 80 L81 77 Z" fill="#B31324" />
+  <!-- Eye contour -->
+  <path d="M12 50 C28 26 72 26 88 50 C72 74 28 74 12 50 Z" fill="#0A0507" stroke="#ff001e" stroke-width="2" filter="url(#eyeGlow)" />
+  <!-- Iris -->
+  <circle cx="50" cy="50" r="16" fill="url(#irisGrad)" stroke="#B31324" stroke-width="1" />
+  <!-- Occult slit pupil -->
+  <path d="M50 36 C54 44 54 56 50 64 C46 56 46 44 50 36 Z" fill="#000000" />
+  <!-- Laser eye highlight -->
+  <circle cx="46" cy="46" r="2.5" fill="#ffffff" opacity="0.85" />
+</svg>

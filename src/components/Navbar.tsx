@@ -9,6 +9,7 @@ import {
   X,
   SlidersHorizontal,
   User,
+  Music,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { soundEngine } from '../utils/soundEngine';
@@ -32,6 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onRouteChange }) =
   } = useGame();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMusicActive, setIsMusicActive] = useState(() => soundEngine.isScaryTrackPlaying());
 
   // Exact navigation items from design board
   const navItems = [
@@ -137,6 +139,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onRouteChange }) =
               className="p-2 rounded bg-[#151313]/80 border border-[#7A0C16]/40 text-[#918B86] hover:text-red-400 hover:border-[#B31324] transition"
             >
               <Terminal className="w-4 h-4" />
+            </button>
+
+            {/* Quick Scary Horror Theme Music Button */}
+            <button
+              onClick={() => {
+                soundEngine.playNormalClick();
+                const nextState = soundEngine.toggleScaryThemeMusic();
+                setIsMusicActive(nextState);
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                soundEngine.nextScaryTrack();
+                setIsMusicActive(true);
+              }}
+              onMouseEnter={() => soundEngine.playHover()}
+              title={`Scary Horror Theme Music (${soundEngine.getScaryTrackId().toUpperCase()}) - Click to toggle, Right-click to switch track`}
+              className={`p-2 rounded border transition flex items-center gap-1.5 text-xs font-mono cursor-pointer ${
+                isMusicActive
+                  ? 'bg-[#220408] border-[#ff001e] text-[#ff001e] shadow-[0_0_15px_rgba(255,0,30,0.5)]'
+                  : 'bg-[#151313]/80 border-[#7A0C16]/40 text-[#918B86] hover:text-[#ff4d61] hover:border-[#ff001e]'
+              }`}
+            >
+              <Music className={`w-4 h-4 ${isMusicActive ? 'animate-pulse text-[#ff001e]' : ''}`} />
+              <span className="hidden xl:inline text-[10px] tracking-wider uppercase font-bold">
+                {isMusicActive ? 'HORROR OST' : 'OST'}
+              </span>
             </button>
 
             {/* Sound Mute / Controls */}

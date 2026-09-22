@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none">
+  <!-- Blood Impact Center -->
+  <circle cx="250" cy="250" r="45" fill="#7A0C16" />
+  <circle cx="245" cy="245" r="32" fill="#B31324" />
+  <circle cx="240" cy="240" r="18" fill="#ff001e" />
+  <!-- Spatters & Drops radiating -->
+  <path d="M250 210 Q260 140 280 100 Q265 150 250 210 Z" fill="#7A0C16" />
+  <circle cx="288" cy="85" r="6" fill="#B31324" />
+  <circle cx="295" cy="65" r="3.5" fill="#ff001e" />
+  
+  <path d="M280 260 Q360 280 410 320 Q340 290 280 260 Z" fill="#7A0C16" />
+  <circle cx="425" cy="335" r="8" fill="#B31324" />
+  <circle cx="445" cy="355" r="4" fill="#ff001e" />
+
+  <path d="M220 270 Q160 340 110 390 Q170 330 220 270 Z" fill="#7A0C16" />
+  <circle cx="95" cy="405" r="7" fill="#B31324" />
+  <circle cx="75" cy="430" r="4" fill="#ff001e" />
+
+  <path d="M210 230 Q130 190 70 160 Q140 210 210 230 Z" fill="#7A0C16" />
+  <circle cx="55" cy="150" r="5" fill="#B31324" />
+  <circle cx="40" cy="140" r="3" fill="#ff001e" />
+
+  <!-- Drips down -->
+  <path d="M245 290 Q243 360 240 430 Q247 360 255 290 Z" fill="#B31324" />
+  <circle cx="239" cy="445" r="5" fill="#ff001e" />
+</svg>

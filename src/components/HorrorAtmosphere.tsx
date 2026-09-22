@@ -47,6 +47,11 @@ export const HorrorAtmosphere: React.FC = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
+      {/* Cinematic Vignette overlay */}
+      <div className="vignette" />
+      {/* Film Grain overlay */}
+      <div className="film-grain" />
+
       {/* 1. MASTER HORROR WEBSITE BACKGROUND */}
       <div className="absolute inset-0 z-0">
         <motion.div

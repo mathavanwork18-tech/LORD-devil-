@@ -25,6 +25,49 @@ export const Missions: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('ALL');
   const [previewMission, setPreviewMission] = useState<Mission | null>(null);
+  const [isCustomHuntOpen, setIsCustomHuntOpen] = useState<boolean>(false);
+  const [customTargetName, setCustomTargetName] = useState<string>('INQUISITOR VANE');
+  const [customCurseMethod, setCustomCurseMethod] = useState<string>('Abyssal Singularity');
+  const [customImage, setCustomImage] = useState<string>('/assets/horror/entities/reaper_demon.jpg');
+
+  const TARGET_PORTRAITS = [
+    { id: 'p1', name: 'Grim Harvester', image: '/assets/horror/entities/reaper_demon.jpg' },
+    { id: 'p2', name: 'Last Room Phantom', image: '/assets/horror/entities/mission-01-last-room.jpg' },
+    { id: 'p3', name: 'Shadow Hunter', image: '/assets/horror/entities/mission-02-shadow-hunt.jpg' },
+    { id: 'p4', name: 'The Vanishing Entity', image: '/assets/horror/entities/mission-03-the-vanishing.jpg' },
+    { id: 'p5', name: 'Void Walker Nemesis', image: '/assets/horror/entities/mission-04-void-walker.jpg' },
+    { id: 'p6', name: 'Red Warden Colossus', image: '/assets/horror/entities/mission-05-red-warden.jpg' },
+  ];
+
+  const CURSE_METHODS = [
+    { title: 'Abyssal Singularity', desc: 'Target is atomized into antimatter particles within 20 seconds.' },
+    { title: 'Blood Moon Severance', desc: 'Demonic winged fiends drag target from the mortal realm.' },
+    { title: 'Crypt Entombment', desc: 'Target is sealed into an impenetrable obsidian void sarcophagus.' },
+    { title: 'Reaper’s Judgement', desc: 'The Grim Executioner claims the soul with a blood-forged scythe.' },
+  ];
+
+  const handleLaunchCustomHunt = () => {
+    soundEngine.playMissionStart();
+    const cleanName = customTargetName.trim().toUpperCase() || 'VOID ADVERSARY';
+    const mission: Mission = {
+      id: `custom-hunt-${Date.now()}`,
+      title: `VOID HUNT: ${cleanName}`,
+      subtitle: 'Classified 20-Second Elimination Protocol',
+      entityName: cleanName,
+      category: 'CLASSIFIED',
+      difficulty: 'LETHAL',
+      durationSec: 20,
+      rewardTokens: 1000,
+      description: `Target declared: ${cleanName}. Condemned under the rite of ${customCurseMethod}. Exactly 20 seconds of containment required.`,
+      objective: `Maintain void entrapment while ${customCurseMethod} disintegrates target mortal ties.`,
+      completionMessage: `Target ${cleanName} has perished and been dragged into the abyss! +1,000 Death Tokens harvested.`,
+      iconName: 'Skull',
+      threatColor: '#ff001e',
+      image: customImage,
+    };
+    setIsCustomHuntOpen(false);
+    startMission(mission);
+  };
 
   const categories = ['ALL', 'MYSTERY', 'SURVIVAL', 'SUPERNATURAL', 'CLASSIFIED'];
   const difficulties = ['ALL', 'MEDIUM', 'HIGH', 'EXTREME', 'LETHAL'];
@@ -72,6 +115,34 @@ export const Missions: React.FC = () => {
         <p className="text-xs sm:text-sm text-void-muted font-mono leading-relaxed">
           Survive 20 seconds of escalating supernatural terror. Neutralize entities without violence, claim cosmic Death Tokens, and expand Dr. Void's territory.
         </p>
+      </div>
+
+      {/* ── CUSTOM VOID HUNT / ELIMINATION PROTOCOL HERO CTA ── */}
+      <div className="relative rounded-2xl overflow-hidden mb-8 border border-[#ff001e]/60 shadow-[0_0_40px_rgba(255,0,30,0.25)] bg-[#0A0407] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-2 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7A0C16]/40 border border-[#ff001e] text-[10px] font-heading tracking-widest text-[#ff4d61] uppercase">
+            <Skull className="w-3.5 h-3.5 text-[#ff001e] animate-pulse" />
+            <span>20-SECOND ELIMINATION CHAMBER</span>
+          </div>
+          <h2 className="font-horror text-2xl sm:text-4xl text-[#ff001e] tracking-wider text-horror-fiction drop-shadow-[0_0_20px_#ff001e] uppercase">
+            DECLARE A CUSTOM VOID TARGET
+          </h2>
+          <p className="text-xs sm:text-sm text-[#b8b0a9] max-w-xl font-sans leading-relaxed">
+            Name any fictional traitor or nemesis. Choose their doomed portrait and curse method. Subject them to 20 seconds of escalating supernatural terror and harvest a <span className="text-[#ff001e] font-bold">+1,000 Death Token</span> bounty upon their elimination.
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            soundEngine.playSecret();
+            setIsCustomHuntOpen(true);
+          }}
+          className="px-6 py-4 rounded-xl bg-gradient-to-r from-[#7A0C16] via-[#B31324] to-[#ff001e] text-white font-heading font-extrabold tracking-widest text-xs uppercase shadow-[0_0_30px_rgba(255,0,30,0.5)] hover:brightness-125 transition flex items-center gap-3 cursor-pointer shrink-0 border border-[#ff001e]"
+        >
+          <Skull className="w-4 h-4 text-white" />
+          <span>DECLARE TARGET & HUNT</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Filter & Search Bar */}
@@ -349,6 +420,147 @@ export const Missions: React.FC = () => {
                   <span>ENGAGE RUNNER</span>
                 </button>
               </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── CUSTOM VOID HUNT CREATION MODAL ── */}
+      <AnimatePresence>
+        {isCustomHuntOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-2xl bg-[#090306] border-2 border-[#ff001e] rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(255,0,30,0.4)] text-left hud-corner-crimson max-h-[92vh] overflow-y-auto"
+            >
+              <button
+                onClick={() => setIsCustomHuntOpen(false)}
+                className="absolute top-4 right-4 p-2 text-[#918B86] hover:text-white z-20 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="p-6 sm:p-8 space-y-6">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7A0C16]/30 border border-[#ff001e]/50 text-[10px] font-heading tracking-widest text-[#ff4d61] mb-2 uppercase">
+                    <Skull className="w-3.5 h-3.5 text-[#ff001e]" />
+                    <span>SOUL CONDEMNATION CHAMBER</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-heading font-extrabold tracking-wider text-[#E7E0D2] uppercase">
+                    DECLARE VOID TARGET
+                  </h2>
+                  <p className="text-xs text-[#918B86] font-mono mt-1">
+                    Designate any fictional target for supernatural claiming. The 20-second sequence will initiate immediately.
+                  </p>
+                </div>
+
+                {/* Target Name Input */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-heading tracking-widest text-[#ff4d61] uppercase">
+                    TARGET CODENAME / ADVERSARY IDENTIFIER
+                  </label>
+                  <input
+                    type="text"
+                    value={customTargetName}
+                    onChange={(e) => setCustomTargetName(e.target.value)}
+                    placeholder="Enter target name (e.g. Rogue Inquisitor, Corrupted Marshal)..."
+                    className="w-full px-4 py-3 bg-[#120508] border border-[#7A0C16] rounded-xl text-sm font-heading tracking-wider text-white placeholder:text-[#6a5e59] focus:outline-none focus:border-[#ff001e] focus:shadow-[0_0_15px_rgba(255,0,30,0.3)] uppercase"
+                  />
+                </div>
+
+                {/* Target Visage / Portrait Selection */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-heading tracking-widest text-[#B06D35] uppercase">
+                    SELECT CONDEMNED VISAGE
+                  </label>
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                    {TARGET_PORTRAITS.map((portrait) => {
+                      const isSelected = customImage === portrait.image;
+                      return (
+                        <div
+                          key={portrait.id}
+                          onClick={() => {
+                            soundEngine.playClick();
+                            setCustomImage(portrait.image);
+                          }}
+                          className={`relative rounded-lg overflow-hidden border cursor-pointer transition aspect-square group ${
+                            isSelected
+                              ? 'border-[#ff001e] ring-2 ring-[#ff001e]/60 shadow-[0_0_15px_rgba(255,0,30,0.4)]'
+                              : 'border-[#7A0C16]/40 opacity-70 hover:opacity-100 hover:border-[#ff001e]/60'
+                          }`}
+                        >
+                          <img src={portrait.image} alt={portrait.name} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                          <div className="absolute bottom-1 inset-x-1 text-[8px] font-heading font-bold text-center text-white truncate">
+                            {portrait.name}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Curse Method Selection */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-heading tracking-widest text-[#B06D35] uppercase">
+                    SELECT UNHOLY CURSE PROTOCOL
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {CURSE_METHODS.map((method) => {
+                      const isSelected = customCurseMethod === method.title;
+                      return (
+                        <div
+                          key={method.title}
+                          onClick={() => {
+                            soundEngine.playClick();
+                            setCustomCurseMethod(method.title);
+                          }}
+                          className={`p-3 rounded-xl border text-left cursor-pointer transition ${
+                            isSelected
+                              ? 'bg-[#180508] border-[#ff001e] shadow-[0_0_15px_rgba(255,0,30,0.25)]'
+                              : 'bg-[#0f0406] border-[#7A0C16]/40 hover:border-[#ff001e]/50'
+                          }`}
+                        >
+                          <div className="font-heading text-xs font-bold text-[#E7E0D2]">{method.title}</div>
+                          <div className="text-[10px] text-[#918B86] mt-0.5">{method.desc}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Mission Specs Summary */}
+                <div className="p-4 rounded-xl bg-[#0f0406] border border-[#7A0C16]/60 flex items-center justify-between text-xs font-mono">
+                  <div>
+                    <span className="text-[#918B86]">CONTAINMENT LOCK:</span>{' '}
+                    <span className="text-[#ff4d61] font-bold font-heading">20 SECONDS</span>
+                  </div>
+                  <div>
+                    <span className="text-[#918B86]">BOUNTY HARVEST:</span>{' '}
+                    <span className="text-[#ff001e] font-extrabold font-heading text-glow-crimson">+1,000 DEATH TOKENS</span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => setIsCustomHuntOpen(false)}
+                    className="w-1/3 py-3.5 rounded-xl bg-[#120508] border border-[#7A0C16]/50 text-xs font-heading tracking-wider text-[#918B86] hover:text-white cursor-pointer"
+                  >
+                    ABORT
+                  </button>
+
+                  <button
+                    onClick={handleLaunchCustomHunt}
+                    className="w-2/3 py-3.5 rounded-xl bg-gradient-to-r from-[#7A0C16] via-[#B31324] to-[#ff001e] hover:brightness-125 font-bold font-heading tracking-widest text-xs text-white flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(255,0,30,0.5)] transition active:scale-95 border border-[#ff001e] cursor-pointer"
+                  >
+                    <Skull className="w-4 h-4 text-white" />
+                    <span>INITIATE 20s VOID EXECUTION</span>
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
