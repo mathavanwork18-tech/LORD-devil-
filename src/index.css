@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --void-black: #050505;
+    --deep-black: #0A0909;
+    --charcoal: #151313;
+    --blood-red: #7A0C16;
+    --dark-crimson: #B31324;
+    --old-gold: #B06D35;
+    --bone-white: #E7E0D2;
+    --ash-grey: #918B86;
+    --shadow-purple: #24182E;
+    
+    --bg-base: #050505;
+    --bg-secondary: #0A0909;
+    --panel-bg: rgba(21, 19, 19, 0.85);
+    --accent-crimson: #B31324;
+    --accent-blood: #7A0C16;
+    --accent-gold: #B06D35;
+    --text-primary: #E7E0D2;
+    --text-secondary: #918B86;
+    --text-muted: #665F5A;
+    --border-crimson: rgba(179, 19, 36, 0.35);
+  }
+
+  * {
+    border-color: rgba(179, 19, 36, 0.2);
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom Gothic Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0A0909;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #4D1426;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B31324;
+  }
+}
+
+@layer utilities {
+  /* Gothic Charcoal Panel */
+  .charcoal-panel {
+    background: rgba(21, 19, 19, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(179, 19, 36, 0.28);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(179, 19, 36, 0.05);
+  }
+
+  .charcoal-panel-gold {
+    background: rgba(21, 19, 19, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(176, 109, 53, 0.35);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(176, 109, 53, 0.05);
+  }
+
+  .void-card {
+    background: linear-gradient(135deg, rgba(21, 19, 19, 0.9) 0%, rgba(10, 9, 9, 0.96) 100%);
+    border: 1px solid rgba(179, 19, 36, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .void-card:hover {
+    border-color: rgba(179, 19, 36, 0.6);
+    box-shadow: 0 0 25px -5px rgba(179, 19, 36, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Ornate Gothic CTA Button */
+  .gothic-btn {
+    position: relative;
+    background: linear-gradient(180deg, #7A0C16 0%, #3D060B 100%);
+    border: 1px solid #B31324;
+    color: #E7E0D2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    clip-path: polygon(
+      8px 0%, calc(100% - 8px) 0%, 
+      100% 8px, 100% calc(100% - 8px), 
+      calc(100% - 8px) 100%, 8px 100%, 
+      0% calc(100% - 8px), 0% 8px
+    );
+  }
+
+  .gothic-btn:hover {
+    background: linear-gradient(180deg, #B31324 0%, #5E0911 100%);
+    box-shadow: 0 0 25px rgba(179, 19, 36, 0.65);
+    border-color: #E7E0D2;
+    color: #FFFFFF;
+  }
+
+  .gothic-btn-outline {
+    position: relative;
+    background: rgba(21, 19, 19, 0.8);
+    border: 1px solid rgba(179, 19, 36, 0.5);
+    color: #E7E0D2;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.12em;
+    transition: all 0.2s ease;
+  }
+
+  .gothic-btn-outline:hover {
+    border-color: #B31324;
+    background: rgba(122, 12, 22, 0.25);
+    box-shadow: 0 0 18px rgba(179, 19, 36, 0.4);
+    color: #FFFFFF;
+  }
+
+  /* Glow Effects */
+  .text-glow-crimson {
+    text-shadow: 0 0 12px rgba(179, 19, 36, 0.8), 0 0 25px rgba(179, 19, 36, 0.4);
+  }
+
+  .text-glow-blood {
+    text-shadow: 0 0 16px rgba(122, 12, 22, 0.9), 0 0 32px rgba(179, 19, 36, 0.6);
+  }
+
+  .text-glow-gold {
+    text-shadow: 0 0 12px rgba(176, 109, 53, 0.7), 0 0 22px rgba(176, 109, 53, 0.35);
+  }
+
+  .text-glow-bone {
+    text-shadow: 0 0 10px rgba(231, 224, 210, 0.5);
+  }
+
+  .glow-border-crimson {
+    box-shadow: 0 0 20px -3px rgba(179, 19, 36, 0.5);
+  }
+
+  /* HUD Scanline & CRT lines */
+  .scanlines {
+    background: linear-gradient(
+      rgba(10, 9, 9, 0) 50%,
+      rgba(0, 0, 0, 0.3) 50%
+    ), linear-gradient(
+      90deg,
+      rgba(179, 19, 36, 0.03),
+      rgba(0, 0, 0, 0.01),
+      rgba(179, 19, 36, 0.03)
+    );
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+  }
+
+  /* Gothic HUD bracket accents */
+  .hud-corner-crimson {
+    position: relative;
+  }
+  .hud-corner-crimson::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #B31324;
+    border-left: 2px solid #B31324;
+    pointer-events: none;
+  }
+  .hud-corner-crimson::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid #B31324;
+    border-right: 2px solid #B31324;
+    pointer-events: none;
+  }
+
+  /* Fog & Atmosphere */
+  .mist-overlay {
+    background: radial-gradient(circle at 50% 50%, rgba(122, 12, 22, 0.12) 0%, rgba(5, 5, 5, 0.8) 75%);
+    pointer-events: none;
+  }
+}

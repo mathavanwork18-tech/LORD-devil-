@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="46" stroke="#B000FF" stroke-width="3" stroke-dasharray="8 4" opacity="0.8"/>
+  <circle cx="50" cy="50" r="38" fill="#07040D" stroke="#FF1744" stroke-width="2"/>
+  <!-- Void Rift / Stylized Eye -->
+  <path d="M20 50 Q50 22 80 50 Q50 78 20 50 Z" fill="#030207" stroke="#B000FF" stroke-width="2.5"/>
+  <circle cx="50" cy="50" r="14" fill="#B000FF"/>
+  <circle cx="50" cy="50" r="7" fill="#FF1744"/>
+  <circle cx="48" cy="48" r="2.5" fill="#FFFFFF"/>
+</svg>
