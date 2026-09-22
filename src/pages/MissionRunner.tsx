@@ -84,8 +84,32 @@ export const MissionRunner: React.FC = () => {
     <div className={`fixed inset-0 z-50 flex items-center justify-center bg-[#030207] select-none overflow-hidden transition-all duration-300 ${
       isCritical ? 'bg-[#0a0006]' : ''
     }`}>
+      {/* Full-screen Horror Entity Background */}
+      {activeMission.image && (
+        <motion.div
+          className="absolute inset-0 z-0"
+          animate={{
+            scale: isIntense ? [1.02, 1.06, 1.02] : [1, 1.03, 1],
+          }}
+          transition={{ duration: isIntense ? 2 : 6, repeat: Infinity }}
+        >
+          <img
+            src={activeMission.image}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#030207]/70" />
+          <div
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              isCritical ? 'opacity-30' : 'opacity-10'
+            }`}
+            style={{ backgroundColor: activeMission.threatColor }}
+          />
+        </motion.div>
+      )}
+
       {/* Dynamic Blood Moon & Cosmic Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-[1]">
         <motion.div
           animate={{
             scale: isIntense ? [1, 1.12, 1] : [1, 1.05, 1],

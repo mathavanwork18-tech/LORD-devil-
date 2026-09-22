@@ -15,6 +15,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'The entity was successfully bound to Dr. Void’s personal nexus. 250 Death Tokens collected.',
     iconName: 'DoorClosed',
     threatColor: '#B000FF',
+    image: '/assets/horror/entities/mission-01-last-room.jpg',
   },
   {
     id: 'mission-02',
@@ -30,6 +31,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'Umbra Stalker Prime subdued and assimilated into the Minion reserve.',
     iconName: 'Ghost',
     threatColor: '#FF1744',
+    image: '/assets/horror/entities/mission-02-shadow-hunt.jpg',
   },
   {
     id: 'mission-03',
@@ -45,6 +47,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'The Chrono Phantom has dissipated into the sub-strata. Temporal integrity restored.',
     iconName: 'Timer',
     threatColor: '#9B51E0',
+    image: '/assets/horror/entities/mission-03-the-vanishing.jpg',
   },
   {
     id: 'mission-04',
@@ -60,6 +63,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'Archon of the Null banished. The orbital barrier now radiates pure void essence.',
     iconName: 'Flame',
     threatColor: '#FF1744',
+    image: '/assets/horror/entities/mission-04-void-walker.jpg',
   },
   {
     id: 'mission-05',
@@ -75,6 +79,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'The Red Warden has bent its knee to Dr. Void. Catacombs secured.',
     iconName: 'ShieldAlert',
     threatColor: '#FF1744',
+    image: '/assets/horror/entities/mission-05-red-warden.jpg',
   },
   {
     id: 'mission-06',
@@ -90,6 +95,7 @@ export const INITIAL_MISSIONS: Mission[] = [
     completionMessage: 'SUBJECT ZERO-VOID safely held in quantum stasis. The Council grants maximum clearance!',
     iconName: 'Skull',
     threatColor: '#B000FF',
+    image: '/assets/horror/entities/mission-06-the-unknown.jpg',
   },
 ];
 

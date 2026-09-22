@@ -22,6 +22,7 @@ export interface Mission {
   completionMessage: string;
   iconName: string;
   threatColor: string;
+  image?: string;
 }
 
 export interface EvilService {

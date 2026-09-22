@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GameProvider, useGame } from './context/GameContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { CinematicIntro } from './components/CinematicIntro';
 import { IdentityGate } from './components/IdentityGate';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -30,11 +31,27 @@ import { NotFound } from './pages/NotFound';
 const AppContent: React.FC = () => {
   const { codename, activeMission } = useGame();
   const [currentRoute, setCurrentRoute] = useState<string>('home');
+  const [introCompleted, setIntroCompleted] = useState<boolean>(() => {
+    // Only show intro once per session
+    return sessionStorage.getItem('lord_evil_intro_seen') === 'true';
+  });
 
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentRoute]);
+
+  // Show cinematic intro on first visit
+  if (!introCompleted) {
+    return (
+      <CinematicIntro
+        onComplete={() => {
+          sessionStorage.setItem('lord_evil_intro_seen', 'true');
+          setIntroCompleted(true);
+        }}
+      />
+    );
+  }
 
   // If user hasn't completed identity gate, show gate
   if (!codename) {

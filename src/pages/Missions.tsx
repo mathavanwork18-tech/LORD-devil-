@@ -150,79 +150,115 @@ export const Missions: React.FC = () => {
           return (
             <div
               key={mission.id}
-              className={`void-card rounded-2xl p-6 flex flex-col justify-between relative group ${
+              className={`void-card rounded-2xl overflow-hidden flex flex-col justify-between relative group ${
                 isDone ? 'border-green-500/30' : ''
               }`}
             >
-              {/* Top Meta Chips */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-void-900 border border-void-purple/20">
-                      {getMissionIcon(mission.iconName)}
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono tracking-widest text-void-crimson uppercase">
-                        {mission.category}
-                      </span>
-                      <div className="text-[10px] font-mono text-void-muted">
-                        THREAT: {mission.difficulty}
+              {/* Horror Mission Image Banner */}
+              {mission.image && (
+                <div className="relative w-full h-44 overflow-hidden">
+                  <img
+                    src={mission.image}
+                    alt={mission.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0a12]/40" />
+                  {/* Animated threat pulse overlay */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                    style={{ backgroundColor: mission.threatColor }}
+                  />
+                  {/* Difficulty badge on image */}
+                  <div className="absolute top-3 right-3">
+                    <span
+                      className="text-[9px] font-mono font-bold tracking-widest px-2 py-1 rounded-md border backdrop-blur-sm"
+                      style={{
+                        color: mission.threatColor,
+                        borderColor: `${mission.threatColor}50`,
+                        backgroundColor: `${mission.threatColor}15`,
+                      }}
+                    >
+                      {mission.difficulty}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Card Content */}
+              <div className="p-6">
+                {/* Top Meta Chips */}
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-void-900 border border-void-purple/20">
+                        {getMissionIcon(mission.iconName)}
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-mono tracking-widest text-void-crimson uppercase">
+                          {mission.category}
+                        </span>
+                        {!mission.image && (
+                          <div className="text-[10px] font-mono text-void-muted">
+                            THREAT: {mission.difficulty}
+                          </div>
+                        )}
                       </div>
                     </div>
+
+                    {isDone ? (
+                      <span className="flex items-center gap-1 text-[10px] font-mono text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/30">
+                        <CheckCircle2 className="w-3 h-3" /> DONE
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-mono text-void-purple bg-void-purple/10 px-2 py-0.5 rounded border border-void-purple/30">
+                        ACTIVE
+                      </span>
+                    )}
                   </div>
 
-                  {isDone ? (
-                    <span className="flex items-center gap-1 text-[10px] font-mono text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/30">
-                      <CheckCircle2 className="w-3 h-3" /> DONE
-                    </span>
-                  ) : (
-                    <span className="text-[10px] font-mono text-void-purple bg-void-purple/10 px-2 py-0.5 rounded border border-void-purple/30">
-                      ACTIVE
-                    </span>
-                  )}
+                  <h3 className="text-lg font-bold font-mono text-white group-hover:text-void-purple transition mb-1">
+                    {mission.title}
+                  </h3>
+                  <div className="text-xs font-mono text-void-crimson mb-3 uppercase">
+                    TARGET: {mission.entityName}
+                  </div>
+
+                  <p className="text-xs text-void-muted leading-relaxed mb-6 line-clamp-3">
+                    {mission.description}
+                  </p>
                 </div>
 
-                <h3 className="text-lg font-bold font-mono text-white group-hover:text-void-purple transition mb-1">
-                  {mission.title}
-                </h3>
-                <div className="text-xs font-mono text-void-crimson mb-3 uppercase">
-                  TARGET: {mission.entityName}
-                </div>
+                {/* Bottom Stakes & Actions */}
+                <div className="pt-4 border-t border-void-purple/15">
+                  <div className="flex items-center justify-between text-xs font-mono mb-4">
+                    <span className="text-void-muted">BOUNTY:</span>
+                    <span className="font-bold text-yellow-400">+{mission.rewardTokens} DEATH TOKENS</span>
+                  </div>
 
-                <p className="text-xs text-void-muted leading-relaxed mb-6 line-clamp-3">
-                  {mission.description}
-                </p>
-              </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => {
+                        soundEngine.playClick();
+                        setPreviewMission(mission);
+                      }}
+                      className="py-2.5 rounded-lg bg-void-900 hover:bg-void-850 border border-void-purple/30 text-xs font-mono text-void-200 hover:text-white transition"
+                    >
+                      PREVIEW
+                    </button>
 
-              {/* Bottom Stakes & Actions */}
-              <div className="pt-4 border-t border-void-purple/15">
-                <div className="flex items-center justify-between text-xs font-mono mb-4">
-                  <span className="text-void-muted">BOUNTY:</span>
-                  <span className="font-bold text-yellow-400">+{mission.rewardTokens} DEATH TOKENS</span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => {
-                      soundEngine.playClick();
-                      setPreviewMission(mission);
-                    }}
-                    className="py-2.5 rounded-lg bg-void-900 hover:bg-void-850 border border-void-purple/30 text-xs font-mono text-void-200 hover:text-white transition"
-                  >
-                    PREVIEW
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      soundEngine.playScan();
-                      startMission(mission);
-                    }}
-                    onMouseEnter={() => soundEngine.playHover()}
-                    className="py-2.5 rounded-lg bg-gradient-to-r from-void-purple to-void-crimson hover:brightness-110 font-bold font-mono tracking-wider text-xs text-white flex items-center justify-center gap-1.5 shadow-glow-purple transition active:scale-95"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-white" />
-                    <span>ACCEPT</span>
-                  </button>
+                    <button
+                      onClick={() => {
+                        soundEngine.playScan();
+                        startMission(mission);
+                      }}
+                      onMouseEnter={() => soundEngine.playHover()}
+                      className="py-2.5 rounded-lg bg-gradient-to-r from-void-purple to-void-crimson hover:brightness-110 font-bold font-mono tracking-wider text-xs text-white flex items-center justify-center gap-1.5 shadow-glow-purple transition active:scale-95"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-white" />
+                      <span>ACCEPT</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -238,15 +274,32 @@ export const Missions: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg void-panel rounded-2xl p-6 sm:p-8 border-void-purple/50 shadow-2xl relative hud-corner-tl"
+              className="w-full max-w-lg void-panel rounded-2xl overflow-hidden border-void-purple/50 shadow-2xl relative hud-corner-tl"
             >
               <button
                 onClick={() => setPreviewMission(null)}
-                className="absolute top-4 right-4 p-1 text-void-muted hover:text-white"
+                className="absolute top-4 right-4 p-1 text-void-muted hover:text-white z-20"
               >
                 <X className="w-5 h-5" />
               </button>
 
+              {/* Preview Horror Image */}
+              {previewMission.image && (
+                <div className="relative w-full h-48 overflow-hidden">
+                  <img
+                    src={previewMission.image}
+                    alt={previewMission.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/60 to-transparent" />
+                  <div
+                    className="absolute inset-0 opacity-15"
+                    style={{ background: `radial-gradient(ellipse at center, ${previewMission.threatColor}30, transparent 70%)` }}
+                  />
+                </div>
+              )}
+
+              <div className="p-6 sm:p-8">
               <div className="text-[10px] font-mono text-void-crimson uppercase tracking-widest mb-1">
                 CLASSIFIED BRIEFING // {previewMission.id.toUpperCase()}
               </div>
@@ -295,6 +348,7 @@ export const Missions: React.FC = () => {
                   <Play className="w-4 h-4 fill-white" />
                   <span>ENGAGE RUNNER</span>
                 </button>
+              </div>
               </div>
             </motion.div>
           </div>
