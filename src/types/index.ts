@@ -36,6 +36,7 @@ export interface EvilService {
   features: string[];
   tags: string[];
   quote: string;
+  image?: string;
 }
 
 export interface Minion {
@@ -80,6 +81,7 @@ export interface LairRoom {
   subtitle: string;
   description: string;
   securityLevel: string;
+  image?: string;
   artifacts: {
     name: string;
     description: string;

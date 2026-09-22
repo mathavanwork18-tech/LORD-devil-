@@ -578,6 +578,173 @@ class SoundEngine {
     this.droneOsc.start();
     this.isDroneRunning = true;
   }
+
+  // --- HORROR AMBIENT MUSIC ENGINE ---
+  private isHorrorMusicRunning = false;
+  private horrorMusicTimer: any = null;
+  private horrorHeartbeatTimer: any = null;
+  private horrorDroneOsc1: OscillatorNode | null = null;
+  private horrorDroneOsc2: OscillatorNode | null = null;
+  private horrorDroneFilter: BiquadFilterNode | null = null;
+  private horrorDroneGain: GainNode | null = null;
+
+  public isHorrorMusicActive(): boolean {
+    return this.isHorrorMusicRunning;
+  }
+
+  public toggleHorrorMusic(enable?: boolean): boolean {
+    const nextState = enable !== undefined ? enable : !this.isHorrorMusicRunning;
+    const ctx = this.initContext();
+    if (!ctx) return false;
+
+    if (!nextState) {
+      // Fade out
+      if (this.horrorDroneGain) {
+        this.horrorDroneGain.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.8);
+        setTimeout(() => {
+          try {
+            this.horrorDroneOsc1?.stop();
+            this.horrorDroneOsc2?.stop();
+            this.horrorDroneOsc1?.disconnect();
+            this.horrorDroneOsc2?.disconnect();
+            this.horrorDroneFilter?.disconnect();
+            this.horrorDroneGain?.disconnect();
+          } catch {
+            // ignore
+          }
+          this.horrorDroneOsc1 = null;
+          this.horrorDroneOsc2 = null;
+          this.horrorDroneFilter = null;
+          this.horrorDroneGain = null;
+        }, 900);
+      }
+      if (this.horrorMusicTimer) {
+        clearInterval(this.horrorMusicTimer);
+        this.horrorMusicTimer = null;
+      }
+      if (this.horrorHeartbeatTimer) {
+        clearInterval(this.horrorHeartbeatTimer);
+        this.horrorHeartbeatTimer = null;
+      }
+      this.isHorrorMusicRunning = false;
+      return false;
+    }
+
+    if (this.isHorrorMusicRunning) return true;
+
+    const vol = this.getEffectiveVolume('ambience');
+    this.isHorrorMusicRunning = true;
+
+    // 1. Dual detuned dark sub-bass drone
+    this.horrorDroneOsc1 = ctx.createOscillator();
+    this.horrorDroneOsc2 = ctx.createOscillator();
+    this.horrorDroneFilter = ctx.createBiquadFilter();
+    this.horrorDroneGain = ctx.createGain();
+
+    this.horrorDroneOsc1.type = 'sawtooth';
+    this.horrorDroneOsc1.frequency.setValueAtTime(43.65, ctx.currentTime); // F1
+    this.horrorDroneOsc2.type = 'sine';
+    this.horrorDroneOsc2.frequency.setValueAtTime(44.8, ctx.currentTime); // slight beat frequency
+
+    this.horrorDroneFilter.type = 'lowpass';
+    this.horrorDroneFilter.frequency.setValueAtTime(120, ctx.currentTime);
+    this.horrorDroneFilter.Q.value = 3;
+
+    this.horrorDroneGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    this.horrorDroneGain.gain.linearRampToValueAtTime(Math.max(0.02, vol * 0.12), ctx.currentTime + 2.5);
+
+    this.horrorDroneOsc1.connect(this.horrorDroneFilter);
+    this.horrorDroneOsc2.connect(this.horrorDroneFilter);
+    this.horrorDroneFilter.connect(this.horrorDroneGain);
+    this.horrorDroneGain.connect(ctx.destination);
+
+    this.horrorDroneOsc1.start();
+    this.horrorDroneOsc2.start();
+
+    // 2. Sinister diminished melody bell sequence
+    const notes = [
+      349.23, // F4
+      392.00, // G4
+      415.30, // Ab4
+      493.88, // B4
+      523.25, // C5
+      554.37, // C#5
+      698.46, // F5
+      783.99, // G5
+    ];
+
+    const playCreepyChime = () => {
+      if (!this.isHorrorMusicRunning || !this.ctx) return;
+      const cVol = this.getEffectiveVolume('ambience');
+      if (cVol <= 0) return;
+
+      const pickCount = Math.random() > 0.5 ? 2 : 3;
+      for (let i = 0; i < pickCount; i++) {
+        const note = notes[Math.floor(Math.random() * notes.length)];
+        const delay = i * (0.35 + Math.random() * 0.25);
+
+        const osc = this.ctx.createOscillator();
+        const chimeGain = this.ctx.createGain();
+        const bq = this.ctx.createBiquadFilter();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(note, this.ctx.currentTime + delay);
+        // Slight micro-pitch drop for unsettling dissonance
+        osc.frequency.exponentialRampToValueAtTime(note * 0.985, this.ctx.currentTime + delay + 1.8);
+
+        bq.type = 'bandpass';
+        bq.frequency.setValueAtTime(note, this.ctx.currentTime + delay);
+        bq.Q.value = 5;
+
+        chimeGain.gain.setValueAtTime(0.0001, this.ctx.currentTime + delay);
+        chimeGain.gain.linearRampToValueAtTime(cVol * 0.05, this.ctx.currentTime + delay + 0.08);
+        chimeGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + delay + 2.2);
+
+        osc.connect(bq);
+        bq.connect(chimeGain);
+        chimeGain.connect(this.ctx.destination);
+
+        osc.start(this.ctx.currentTime + delay);
+        osc.stop(this.ctx.currentTime + delay + 2.3);
+      }
+    };
+
+    // 3. Subterranean Heartbeat pulse (Thump-thump)
+    const playHeartbeat = () => {
+      if (!this.isHorrorMusicRunning || !this.ctx) return;
+      const hVol = this.getEffectiveVolume('ambience');
+      if (hVol <= 0) return;
+
+      [0, 0.22].forEach((offset, idx) => {
+        const hOsc = this.ctx!.createOscillator();
+        const hGain = this.ctx!.createGain();
+        const t = this.ctx!.currentTime + offset;
+
+        hOsc.type = 'sine';
+        hOsc.frequency.setValueAtTime(idx === 0 ? 52 : 44, t);
+        hOsc.frequency.exponentialRampToValueAtTime(28, t + 0.18);
+
+        hGain.gain.setValueAtTime(0.0001, t);
+        hGain.gain.linearRampToValueAtTime(hVol * (idx === 0 ? 0.16 : 0.11), t + 0.03);
+        hGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+
+        hOsc.connect(hGain);
+        hGain.connect(this.ctx!.destination);
+
+        hOsc.start(t);
+        hOsc.stop(t + 0.22);
+      });
+    };
+
+    playCreepyChime();
+    playHeartbeat();
+
+    this.horrorMusicTimer = setInterval(playCreepyChime, 3800);
+    this.horrorHeartbeatTimer = setInterval(playHeartbeat, 2200);
+
+    return true;
+  }
 }
 
 export const soundEngine = new SoundEngine();
+

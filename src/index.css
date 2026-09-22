@@ -197,3 +197,72 @@
     pointer-events: none;
   }
 }
+
+/* Atmospheric Animations */
+@keyframes fogDriftSlow {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-25%, -8px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes fogDriftFast {
+  0% { transform: translate3d(-10%, 0, 0); }
+  50% { transform: translate3d(15%, 12px, 0); }
+  100% { transform: translate3d(-10%, 0, 0); }
+}
+
+@keyframes spectralFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(2deg);
+  }
+}
+
+@keyframes wingFlapLeft {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+    transform-origin: right center;
+  }
+  50% {
+    transform: rotate(-32deg) scaleY(0.65);
+    transform-origin: right center;
+  }
+}
+
+@keyframes wingFlapRight {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+    transform-origin: left center;
+  }
+  50% {
+    transform: rotate(32deg) scaleY(0.65);
+    transform-origin: left center;
+  }
+}
+
+.animate-fog-slow {
+  animation: fogDriftSlow 48s ease-in-out infinite;
+}
+
+.animate-fog-fast {
+  animation: fogDriftFast 32s ease-in-out infinite;
+}
+
+.animate-wing-left {
+  animation: wingFlapLeft 0.38s ease-in-out infinite;
+}
+
+.animate-wing-right {
+  animation: wingFlapRight 0.38s ease-in-out infinite;
+}
+
+.animate-wing-slow-left {
+  animation: wingFlapLeft 0.65s ease-in-out infinite;
+}
+
+.animate-wing-slow-right {
+  animation: wingFlapRight 0.65s ease-in-out infinite;
+}
+

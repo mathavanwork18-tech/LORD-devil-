@@ -148,126 +148,179 @@ export const Services: React.FC = () => {
           return (
             <div
               key={srv.id}
-              className="void-card rounded-2xl p-6 flex flex-col justify-between relative group"
+              className="void-card rounded-2xl overflow-hidden flex flex-col justify-between relative group border border-void-purple/20 hover:border-void-crimson/50 transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(179,19,36,0.3)]"
             >
-              {/* Top Meta & Bookmark */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-mono text-void-crimson uppercase tracking-widest bg-void-crimson/10 px-2 py-0.5 rounded border border-void-crimson/20">
-                    {srv.category}
-                  </span>
+              {/* Top Horror Image Banner */}
+              {srv.image && (
+                <div className="relative h-44 w-full overflow-hidden bg-void-950">
+                  <img
+                    src={srv.image}
+                    alt={srv.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 filter brightness-90 group-hover:brightness-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0710] via-transparent to-black/60" />
 
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => toggleFavorite(srv.id)}
-                      title={isFav ? 'Remove from Saved' : 'Save Blueprint'}
-                      className={`p-1.5 rounded-lg transition ${
-                        isFav
-                          ? 'text-yellow-400 bg-yellow-400/15'
-                          : 'text-void-muted hover:text-white bg-void-900'
-                      }`}
-                    >
-                      <Bookmark className="w-4 h-4 fill-current" />
-                    </button>
+                  {/* Badges on top of Image */}
+                  <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10">
+                    <span className="text-[10px] font-mono font-bold text-white uppercase tracking-widest bg-void-crimson/80 px-2 py-0.5 rounded backdrop-blur-md border border-void-crimson">
+                      {srv.category}
+                    </span>
 
-                    <button
-                      onClick={() => toggleCompare(srv.id)}
-                      title={isComp ? 'Remove from Comparison' : 'Compare Service'}
-                      className={`p-1.5 rounded-lg transition ${
-                        isComp
-                          ? 'text-void-purple bg-void-purple/20'
-                          : 'text-void-muted hover:text-white bg-void-900'
-                      }`}
-                    >
-                      <Scale className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bold font-mono text-white group-hover:text-void-purple transition mb-2">
-                  {srv.title}
-                </h3>
-                <p className="text-xs text-void-muted leading-relaxed mb-4 line-clamp-3">
-                  {srv.description}
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-1.5 mb-6 text-xs font-mono text-void-200">
-                  {srv.features.slice(0, 3).map((feat, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-void-purple rounded-full shrink-0" />
-                      <span className="truncate">{feat}</span>
+                    <div className="flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg border border-void-purple/30">
+                      <ShieldAlert className="w-3.5 h-3.5 text-void-crimson" />
+                      <span className="text-[10px] font-mono font-bold text-void-crimson">
+                        THREAT {srv.threatLevel}%
+                      </span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
 
-              {/* Bottom Specs & Action */}
-              <div className="pt-4 border-t border-void-purple/15">
-                <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono mb-4 bg-void-900/60 p-2 rounded-lg border border-void-purple/10">
-                  <div>
-                    <div className="text-[10px] text-void-muted">PRICE</div>
-                    <div className="font-bold text-yellow-400">{srv.priceTokens}</div>
+                  {/* Quick Action Badges */}
+                  <div className="absolute bottom-2 right-3 flex items-center gap-1 z-10">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(srv.id);
+                      }}
+                      title={isFav ? 'Remove from Saved' : 'Save Blueprint'}
+                      className={`p-1.5 rounded-lg backdrop-blur-md transition ${
+                        isFav
+                          ? 'text-yellow-400 bg-yellow-400/25 border border-yellow-400/40'
+                          : 'text-void-muted hover:text-white bg-black/60 border border-white/10'
+                      }`}
+                    >
+                      <Bookmark className="w-3.5 h-3.5 fill-current" />
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleCompare(srv.id);
+                      }}
+                      title={isComp ? 'Remove from Comparison' : 'Compare Service'}
+                      className={`p-1.5 rounded-lg backdrop-blur-md transition ${
+                        isComp
+                          ? 'text-void-purple bg-void-purple/30 border border-void-purple/50'
+                          : 'text-void-muted hover:text-white bg-black/60 border border-white/10'
+                      }`}
+                    >
+                      <Scale className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                  <div>
-                    <div className="text-[10px] text-void-muted">THREAT</div>
-                    <div className="font-bold text-void-crimson">{srv.threatLevel}%</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-void-muted">SUCCESS</div>
-                    <div className="font-bold text-green-400">{srv.successRate}%</div>
+                </div>
+              )}
+
+              {/* Card Body */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold font-mono text-white group-hover:text-void-crimson transition mb-2 tracking-wide">
+                    {srv.title}
+                  </h3>
+                  <p className="text-xs text-void-muted leading-relaxed mb-4 line-clamp-2 font-mono">
+                    {srv.description}
+                  </p>
+
+                  {/* Features List */}
+                  <div className="space-y-1.5 mb-5 text-xs font-mono text-void-200">
+                    {srv.features.slice(0, 3).map((feat, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-void-crimson rounded-full shrink-0" />
+                        <span className="truncate">{feat}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    soundEngine.playClick();
-                    setActiveDetailService(srv);
-                  }}
-                  className="w-full py-2.5 rounded-lg bg-void-purple/20 hover:bg-void-purple/40 border border-void-purple/40 text-xs font-mono tracking-wider text-white flex items-center justify-center gap-2 transition"
-                >
-                  <span>INSPECT FULL BLUEPRINT</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                {/* Bottom Specs & Action */}
+                <div className="pt-3 border-t border-void-purple/15">
+                  <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono mb-3 bg-void-900/80 p-2 rounded-lg border border-void-purple/15">
+                    <div>
+                      <div className="text-[9px] text-void-muted">PRICE</div>
+                      <div className="font-bold text-yellow-400">{srv.priceTokens}</div>
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-void-muted">THREAT</div>
+                      <div className="font-bold text-void-crimson">{srv.threatLevel}%</div>
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-void-muted">SUCCESS</div>
+                      <div className="font-bold text-green-400">{srv.successRate}%</div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      soundEngine.playClick();
+                      setActiveDetailService(srv);
+                    }}
+                    className="w-full py-2.5 rounded-lg bg-void-purple/20 hover:bg-void-crimson/30 border border-void-purple/40 hover:border-void-crimson/60 text-xs font-mono tracking-wider text-white flex items-center justify-center gap-2 transition"
+                  >
+                    <span>INSPECT FULL BLUEPRINT</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* SERVICE DETAIL MODAL (SECTION 13) */}
+      {/* SERVICE DETAIL MODAL */}
       <AnimatePresence>
         {activeDetailService && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-2xl void-panel rounded-2xl p-6 sm:p-8 border-void-purple/50 shadow-2xl relative my-8 hud-corner-tl"
+              className="w-full max-w-2xl void-panel rounded-2xl overflow-hidden border border-void-crimson/50 shadow-2xl relative my-8"
             >
-              <button
-                onClick={() => setActiveDetailService(null)}
-                className="absolute top-4 right-4 p-1 text-void-muted hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {/* Modal Horror Image Header */}
+              {activeDetailService.image && (
+                <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-black">
+                  <img
+                    src={activeDetailService.image}
+                    alt={activeDetailService.title}
+                    className="w-full h-full object-cover filter brightness-95"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e0a16] via-[#0e0a16]/40 to-black/60" />
 
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-mono tracking-widest text-void-crimson uppercase bg-void-crimson/10 px-2.5 py-0.5 rounded border border-void-crimson/30">
-                  {activeDetailService.category} SPECIFICATION
-                </span>
-                <span className="text-[10px] font-mono text-void-muted">
-                  ID: {activeDetailService.id.toUpperCase()}
-                </span>
-              </div>
+                  <button
+                    onClick={() => setActiveDetailService(null)}
+                    className="absolute top-4 right-4 p-2 rounded-full bg-black/60 border border-white/20 text-void-muted hover:text-white transition z-10"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
 
-              <h2 className="text-2xl sm:text-3xl font-bold font-mono text-white mb-2">
-                {activeDetailService.title}
-              </h2>
+                  <div className="absolute bottom-4 left-6 right-6">
+                    <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-void-crimson/80 border border-void-crimson text-[10px] font-mono text-white mb-2 uppercase tracking-widest">
+                      {activeDetailService.category} SPECIFICATION PROTOCOL
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold font-mono text-white">
+                      {activeDetailService.title}
+                    </h2>
+                  </div>
+                </div>
+              )}
 
-              <p className="text-xs sm:text-sm text-void-200 leading-relaxed font-mono mb-4">
-                {activeDetailService.description}
-              </p>
+              <div className="p-6 sm:p-8 pt-4">
+                {!activeDetailService.image && (
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-void-crimson/20 border border-void-crimson text-[10px] font-mono text-void-crimson uppercase tracking-widest">
+                      {activeDetailService.category} SPECIFICATION
+                    </div>
+                    <button
+                      onClick={() => setActiveDetailService(null)}
+                      className="p-1 text-void-muted hover:text-white"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+
+                <p className="text-xs sm:text-sm text-void-200 leading-relaxed font-mono mb-4">
+                  {activeDetailService.description}
+                </p>
 
               {/* Quote from villain lore */}
               <blockquote className="p-3 bg-void-900 rounded-lg border-l-2 border-void-purple text-xs font-mono italic text-void-muted mb-6">
@@ -341,9 +394,10 @@ export const Services: React.FC = () => {
                   </button>
                 </div>
               </div>
-            </motion.div>
-          </div>
-        )}
+            </div>
+          </motion.div>
+        </div>
+      )}
       </AnimatePresence>
     </div>
   );

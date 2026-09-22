@@ -100,18 +100,25 @@ export const CommandCenter: React.FC = () => {
               </div>
             </div>
 
-            {/* SVG Tactical Map Canvas */}
-            <div className="relative w-full aspect-[16/9] bg-void-950 rounded-xl border border-void-purple/20 overflow-hidden flex items-center justify-center scanlines">
+            {/* SVG Tactical Map Canvas with horror command background */}
+            <div className="relative w-full aspect-[16/9] bg-void-950 rounded-xl border border-void-crimson/30 overflow-hidden flex items-center justify-center scanlines">
+              {/* Horror Command Center Background Layer */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-25 filter grayscale contrast-150 pointer-events-none"
+                style={{ backgroundImage: `url('/assets/horror/backgrounds/lord-evil-throne-room.jpg')` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
+
               {/* Radar circular rings */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                <div className="w-48 h-48 rounded-full border border-void-purple" />
-                <div className="w-96 h-96 rounded-full border border-void-purple" />
-                <div className="w-[500px] h-[500px] rounded-full border border-void-purple" />
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
+                <div className="w-48 h-48 rounded-full border border-void-crimson" />
+                <div className="w-96 h-96 rounded-full border border-void-crimson" />
+                <div className="w-[500px] h-[500px] rounded-full border border-void-crimson" />
               </div>
 
               {/* Radar rotating sweep arm */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-full h-full bg-gradient-to-tr from-void-purple/10 to-transparent rounded-full animate-radar origin-center pointer-events-none opacity-40" />
+                <div className="w-full h-full bg-gradient-to-tr from-void-crimson/15 to-transparent rounded-full animate-radar origin-center pointer-events-none opacity-50" />
               </div>
 
               {/* Vector Abstract World Continents */}
@@ -219,9 +226,38 @@ export const CommandCenter: React.FC = () => {
             <div className="text-[10px] font-mono text-void-crimson uppercase tracking-widest mb-1">
               SELECTED SECTOR TELEMETRY
             </div>
-            <h3 className="text-xl font-bold font-mono text-white mb-4">
+            <h3 className="text-xl font-bold font-mono text-white mb-3">
               {selectedNode.name}
             </h3>
+
+            {/* Ocular Spy Camera Live Feed */}
+            <div className="relative h-36 w-full rounded-xl overflow-hidden border border-void-crimson/40 mb-4 bg-black">
+              <img
+                src={
+                  selectedNode.id === 'node-1'
+                    ? '/assets/horror/backgrounds/lord-evil-world-domination.jpg'
+                    : selectedNode.id === 'node-2'
+                    ? '/assets/horror/entities/mission-03-the-vanishing.jpg'
+                    : selectedNode.id === 'node-3'
+                    ? '/assets/horror/backgrounds/lord-evil-cursed-archive.jpg'
+                    : '/assets/horror/backgrounds/lord-evil-void-chamber.jpg'
+                }
+                alt={selectedNode.name}
+                className="w-full h-full object-cover filter contrast-125 brightness-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
+              <div className="absolute inset-0 scanlines opacity-60 pointer-events-none" />
+
+              {/* Camera Ocular HUD Overlay */}
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 px-2 py-0.5 rounded text-[9px] font-mono text-void-crimson border border-void-crimson/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-void-crimson animate-ping" />
+                <span>REC // CAM-{selectedNode.id.toUpperCase()}</span>
+              </div>
+
+              <div className="absolute bottom-2 right-2 text-[8px] font-mono text-white/80 bg-black/70 px-2 py-0.5 rounded">
+                LAT: {selectedNode.x}.84°N // LNG: {selectedNode.y}.12°W
+              </div>
+            </div>
 
             <div className="space-y-3.5 text-xs font-mono text-void-200 mb-6">
               <div className="flex justify-between py-1 border-b border-void-purple/10">

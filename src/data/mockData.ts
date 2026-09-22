@@ -107,6 +107,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 5000,
     threatLevel: 98,
     successRate: 99.4,
+    image: '/assets/horror/backgrounds/lord-evil-world-domination.jpg',
     description: 'A turn-key authoritarian hegemony package. From satellite takeover to custom anthem broadcasts across 195 nations.',
     features: [
       'Global orbital laser grid targeting',
@@ -126,6 +127,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 2500,
     threatLevel: 85,
     successRate: 97.2,
+    image: '/assets/horror/entities/mission-03-the-vanishing.jpg',
     description: 'Fictional architectural vanishing. Turn any metropolitan skyline into a smoking volcanic crater or pocket dimension.',
     features: [
       'Subterranean tectonic destabilizers',
@@ -145,6 +147,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 1800,
     threatLevel: 72,
     successRate: 99.9,
+    image: '/assets/horror/entities/mission-04-void-walker.jpg',
     description: 'Quantum cyber-infiltration that redirects 90% of global internet traffic directly to Dr. Void’s evil propaganda channels.',
     features: [
       'Zero-day exploits on all banking and power infrastructure',
@@ -164,6 +167,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 3500,
     threatLevel: 92,
     successRate: 96.5,
+    image: '/assets/horror/backgrounds/lord-evil-red-moon.jpg',
     description: 'Compress lunar mass using an anti-gravity tractor beam and store it directly in Dr. Void’s private trophy vault.',
     features: [
       'Class-X graviton displacement beam array',
@@ -183,6 +187,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 2200,
     threatLevel: 78,
     successRate: 98.1,
+    image: '/assets/horror/entities/mission-05-red-warden.jpg',
     description: 'Five thousand chrome titanium automatons with glowing crimson optical arrays, programmed for unquestioning devotion.',
     features: [
       'Cold-forged obsidian titanium armor plating',
@@ -202,6 +207,7 @@ export const INITIAL_SERVICES: EvilService[] = [
     priceTokens: 1500,
     threatLevel: 65,
     successRate: 100.0,
+    image: '/assets/horror/entities/mission-02-shadow-hunt.jpg',
     description: 'Collaborate directly with Dr. Void’s think-tank to blueprint your own personalized supervillain scheme.',
     features: [
       '1-on-1 strategic session with Dr. Void over holographic link',
@@ -385,6 +391,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-01',
     name: 'COMMAND THRONE ROOM',
     subtitle: 'Apex of the Empire',
+    image: '/assets/horror/backgrounds/lord-evil-throne-room.jpg',
     description: 'Suspended above an abyss of swirling violet plasma, the Grand Throne overlooks holographic planet projections and tactical battle maps.',
     securityLevel: 'MAXIMUM (DR. VOID ONLY)',
     artifacts: [
@@ -397,6 +404,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-02',
     name: 'DARK LABORATORY',
     subtitle: 'Where Nightmares Are Assembled',
+    image: '/assets/horror/backgrounds/lord-evil-forbidden-corridor.jpg',
     description: 'Centrifuges of bioluminescent venom, antimatter particle colliders, and cages containing chittering supernatural entities.',
     securityLevel: 'CLEARANCE LEVEL 5',
     artifacts: [
@@ -409,6 +417,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-03',
     name: 'ANCIENT ARCHIVES',
     subtitle: 'Forbidden Grimoires & Ciphers',
+    image: '/assets/horror/backgrounds/lord-evil-cursed-archive.jpg',
     description: 'Towering obsidian bookshelves stretching into absolute darkness. Containing every forbidden tome written since the dawn of civilization.',
     securityLevel: 'CLEARANCE LEVEL 4',
     artifacts: [
@@ -421,6 +430,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-04',
     name: 'TROPHY VAULT',
     subtitle: 'Relics of Vanquished Foes',
+    image: '/assets/horror/backgrounds/lord-evil-void-chamber.jpg',
     description: 'A museum of shattered capes, dented vibranium shields, and stolen celestial artifacts collected across centuries of dominance.',
     securityLevel: 'CLEARANCE LEVEL 3',
     artifacts: [
@@ -433,6 +443,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-05',
     name: 'MINION DOCK & BARRACKS',
     subtitle: 'Legion Assembly Bay',
+    image: '/assets/horror/entities/mission-05-red-warden.jpg',
     description: 'A subterranean cavern spanning three square miles. Endless ranks of shadow drones recharging in glowing violet docking cradles.',
     securityLevel: 'CLEARANCE LEVEL 2',
     artifacts: [
@@ -445,6 +456,7 @@ export const LAIR_ROOMS: LairRoom[] = [
     id: 'room-06',
     name: 'CELESTIAL OBSERVATORY',
     subtitle: 'Eyes on the Cosmos',
+    image: '/assets/horror/backgrounds/lord-evil-red-moon.jpg',
     description: 'A colossal dome of tinted diamond glass peering out into the infinite starfield and the mysterious crimson nebula.',
     securityLevel: 'CLEARANCE LEVEL 4',
     artifacts: [

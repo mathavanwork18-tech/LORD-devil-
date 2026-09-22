@@ -11,6 +11,7 @@ import { SoundSettingsModal } from './components/SoundSettingsModal';
 import { TokenHistoryDrawer } from './components/TokenHistoryDrawer';
 import { CompareDrawer } from './components/CompareDrawer';
 import { ToastContainer } from './components/ToastContainer';
+import { HorrorAtmosphere } from './components/HorrorAtmosphere';
 
 // Pages
 import { Home } from './pages/Home';
@@ -97,14 +98,19 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#030207] text-[#FFFFFF]">
-      <Navbar currentRoute={currentRoute} onRouteChange={setCurrentRoute} />
+    <div className="min-h-screen flex flex-col bg-[#030207] text-[#FFFFFF] relative overflow-x-hidden">
+      {/* Global Horror Atmosphere: Master Background, Fog, and Flying Entities */}
+      <HorrorAtmosphere />
 
-      <main className="flex-1">
-        {renderPage()}
-      </main>
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <Navbar currentRoute={currentRoute} onRouteChange={setCurrentRoute} />
 
-      <Footer onRouteChange={setCurrentRoute} />
+        <main className="flex-1">
+          {renderPage()}
+        </main>
+
+        <Footer onRouteChange={setCurrentRoute} />
+      </div>
 
       {/* Global Overlays & Modals */}
       <CommandPalette onRouteChange={setCurrentRoute} />
