@@ -651,4 +651,95 @@
 .eq-bar-4 { animation: eq-pulse-4 0.6s ease-in-out infinite; }
 .eq-bar-5 { animation: eq-pulse-5 0.75s ease-in-out infinite; }
 
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* LORD EVIL LOGO & OCCULT SIGIL ANIMATIONS                                */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes sigilSpinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes sigilSpinReverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes sigilSpinFast {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes sigilPulseAura {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(179, 19, 36, 0.6));
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 20px rgba(255, 0, 30, 0.95)) drop-shadow(0 0 35px rgba(179, 19, 36, 0.7));
+    opacity: 1;
+  }
+}
+
+@keyframes sigilOccultRing {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.45;
+  }
+}
+
+.animate-sigil-spin {
+  animation: sigilSpinSlow 24s linear infinite;
+  transform-origin: center;
+}
+
+.animate-sigil-spin-reverse {
+  animation: sigilSpinReverse 18s linear infinite;
+  transform-origin: center;
+}
+
+.animate-sigil-spin-fast {
+  animation: sigilSpinFast 6s linear infinite;
+  transform-origin: center;
+}
+
+.animate-sigil-pulse {
+  animation: sigilPulseAura 3s ease-in-out infinite;
+}
+
+.animate-occult-ring {
+  animation: sigilOccultRing 25s linear infinite;
+  transform-origin: center;
+}
+
+/* Hover acceleration for occult sigil */
+.group\/lordlogo:hover .animate-sigil-spin {
+  animation-duration: 7s !important;
+}
+
+.group\/lordlogo:hover .animate-sigil-spin-reverse {
+  animation-duration: 5s !important;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-sigil-spin,
+  .animate-sigil-spin-reverse,
+  .animate-sigil-spin-fast,
+  .animate-sigil-pulse,
+  .animate-occult-ring {
+    animation: none !important;
+  }
+}
+
 

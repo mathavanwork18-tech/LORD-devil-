@@ -61,7 +61,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onRouteChange }) =
             <button
               onClick={() => handleNavClick('home')}
               onMouseEnter={() => soundEngine.playHover()}
-              className="flex items-center gap-2 group focus:outline-none"
+              className="flex items-center gap-2 group/lordlogo focus:outline-none"
+              aria-label="Lord Evil Home"
             >
               <LordEvilLogo size="sm" variant="dark" />
             </button>

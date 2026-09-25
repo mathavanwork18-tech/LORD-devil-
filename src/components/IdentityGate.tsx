@@ -233,10 +233,10 @@ export const IdentityGate: React.FC<IdentityGateProps> = ({ onComplete }) => {
             {/* Ambient inner glow */}
             <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-32 bg-[#ff001e]/15 blur-3xl pointer-events-none" />
 
-            {/* Sigil Mark */}
+            {/* Sigil Mark with Occult Halo */}
             <div className="flex justify-center mb-4">
-              <div className="p-3.5 rounded-full bg-[#0d0407] border border-[#B31324] shadow-[0_0_25px_rgba(179,19,36,0.6)] group">
-                <LordEvilSigil size={44} color="#ff001e" className="group-hover:rotate-90 transition-transform duration-500" />
+              <div className="relative p-3.5 rounded-full bg-[#0d0407] border border-[#B31324] shadow-[0_0_30px_rgba(255,0,30,0.5)] group/lordlogo hover:border-[#ff001e] transition-colors duration-500">
+                <LordEvilSigil size={48} color="#ff001e" animated={true} faintRing={true} />
               </div>
             </div>
 
