@@ -1,0 +1,193 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-cream: var(--cream);
+  --color-cream-foreground: var(--cream-foreground);
+  --color-amber: var(--amber);
+  --color-sage: var(--sage);
+  --color-ink: var(--ink);
+}
+
+:root {
+  --radius: 0.25rem;
+  /* near-black charcoal night */
+  --background: oklch(0.16 0.008 70);
+  --foreground: oklch(0.94 0.02 85);
+  --ink: oklch(0.11 0.006 70);
+  --card: oklch(0.2 0.01 70);
+  --card-foreground: oklch(0.94 0.02 85);
+  --popover: oklch(0.2 0.01 70);
+  --popover-foreground: oklch(0.94 0.02 85);
+  /* amber lamp light */
+  --primary: oklch(0.78 0.14 70);
+  --primary-foreground: oklch(0.16 0.01 70);
+  --amber: oklch(0.78 0.14 70);
+  /* muted restaurant green */
+  --secondary: oklch(0.4 0.05 150);
+  --secondary-foreground: oklch(0.94 0.02 85);
+  --sage: oklch(0.55 0.06 150);
+  --muted: oklch(0.24 0.01 70);
+  --muted-foreground: oklch(0.7 0.02 80);
+  --accent: oklch(0.26 0.015 70);
+  --accent-foreground: oklch(0.94 0.02 85);
+  /* warm editorial cream */
+  --cream: oklch(0.94 0.025 85);
+  --cream-foreground: oklch(0.2 0.01 70);
+  --destructive: oklch(0.62 0.2 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.94 0.02 85 / 14%);
+  --input: oklch(0.94 0.02 85 / 20%);
+  --ring: oklch(0.78 0.14 70);
+  --glow-amber: radial-gradient(ellipse at center, oklch(0.78 0.14 70 / 35%), transparent 65%);
+  --shade-bottom: linear-gradient(to top, var(--background) 0%, oklch(0.16 0.008 70 / 60%) 40%, transparent 100%);
+  --shade-full: linear-gradient(to bottom, oklch(0.11 0.006 70 / 70%), oklch(0.11 0.006 70 / 30%) 40%, var(--background));
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em; }
+  ::selection { background: var(--amber); color: var(--ink); }
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+@utility display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 9vw, 9rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+@utility display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  line-height: 0.95;
+}
+@utility glow-amber { background: var(--glow-amber); }
+@utility shade-bottom { background: var(--shade-bottom); }
+@utility shade-full { background: var(--shade-full); }
+@utility btn-amber {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--amber); color: var(--ink);
+  padding: 0.95rem 1.6rem; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  transition: transform .25s, box-shadow .25s;
+  &:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -10px var(--amber); }
+}
+@utility btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: 1px solid oklch(0.94 0.02 85 / 40%); color: var(--foreground);
+  padding: 0.95rem 1.6rem; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase; transition: all .25s;
+  &:hover { border-color: var(--amber); color: var(--amber); }
+}
+@utility pending-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px dashed oklch(0.78 0.14 70 / 60%);
+  color: var(--amber); font-size: 0.65rem; letter-spacing: 0.18em;
+  text-transform: uppercase; padding: 0.3rem 0.6rem;
+}
+
+/* ── Marquee / Running strip ──────────────────────────────────────────────── */
+:root {
+  --marquee-h: 32px;
+}
+@media (max-width: 640px) {
+  :root { --marquee-h: 28px; }
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-strip {
+  position: fixed;
+  inset-x: 0;
+  top: 0;
+  z-index: 60; /* above nav (z-50) */
+  height: var(--marquee-h);
+  overflow: hidden;
+  background: var(--ink);
+  border-bottom: 1px solid oklch(0.78 0.14 70 / 18%);
+  display: flex;
+  align-items: center;
+}
+
+.marquee-tag {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: default;
+}
+
+.marquee-content-row {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding-inline: 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: oklch(0.94 0.02 85 / 55%);
+}
+
+.marquee-sep {
+  display: inline-flex;
+  align-items: center;
+  color: oklch(0.78 0.14 70 / 50%); /* amber at 50% */
+  flex-shrink: 0;
+}
+
